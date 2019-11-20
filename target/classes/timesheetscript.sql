@@ -91,13 +91,13 @@ CREATE TABLE IF NOT EXISTS `TimesheetPortal`.`users` (
   `userName` VARCHAR(45) NOT NULL,
   `password` VARCHAR(45) NOT NULL,
   `jobTitle` VARCHAR(45) NULL DEFAULT NULL,
-  `rollId` INT(11) NULL DEFAULT NULL,
+  `roleId` INT(11) NULL DEFAULT NULL,
   PRIMARY KEY (`userId`),
   UNIQUE INDEX `idusers_UNIQUE` (`userId` ASC),
   UNIQUE INDEX `userName_UNIQUE` (`userName` ASC),
-  INDEX `roleId_idx` (`rollId` ASC),
+  INDEX `roleId_idx` (`roleId` ASC),
   CONSTRAINT `roleId`
-    FOREIGN KEY (`rollId`)
+    FOREIGN KEY (`roleId`)
     REFERENCES `TimesheetPortal`.`roles` (`roleId`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 5
@@ -109,14 +109,20 @@ values (1, 'Associate'), (2, 'Manager'), (3, 'System Admin');
 Insert into status (statusId, statusName)
 values (1, 'Work in Progress'), ( 2, 'Submitted' );
 
-insert into users (userId, firstName, lastName, userName, password, jobTitle, rollId)
+insert into users (userId, firstName, lastName, userName, password, jobTitle, roleId)
 values (1, 'Loi','Phung', 'lphung1', 'pickles', 'Trainee', 1),
 	(2, 'Dan', 'Smith' , 'dsmith', 'pickles', 'Trainer', 2),
     (3, 'Sarah','Johnson', 'sjohnson', 'pickles', 'System Admin', 3),
     (4, 'john', 'doe', 'jdoe', 'pickles', 'Java Developer', 1);
     
 insert into timeSheet (timesheetId, userId, statusId, week_end_date)
-values (1, 1, 1, "2019-11-17");
+values (3, 1, 1, "2019-11-17");
+insert into timeSheet (timesheetId, userId, statusId, week_end_date)
+values (2, 1, 2, "2019-11-10");
+insert into timeSheet (timesheetId, userId, statusId, week_end_date)
+values (1, 1, 2, "2019-11-03");
+insert into timeSheet (timesheetId, userId, statusId, week_end_date)
+values (4, 2, 2, "2019-11-03");
 
 commit;
 
