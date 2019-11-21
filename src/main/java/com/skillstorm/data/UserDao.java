@@ -99,9 +99,10 @@ public class UserDao {
 		stm.setString(1, usrName);
 		stm.setString(2, passWord);
 		
-		System.out.println("Result set for verify user " + stm.executeQuery().getRow());
+		ResultSet rs = stm.executeQuery();
+		System.out.println("Result set for verify user ");
 		
-		
+		//webhook test
 		
 		
 		return false;
