@@ -1,6 +1,7 @@
 package com.skillstorm.data;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -36,14 +37,7 @@ public class TimeSheetDAO {
 		
 	}
 	
-	public static void main(String[] args) throws SQLException {
-		TimeSheetDAO t = new TimeSheetDAO();
-		 
 
-		
-		
-		
-	}
 	
 	public List<TimeSheet> findAllTimeSheet() throws SQLException{
 		
@@ -83,7 +77,10 @@ public class TimeSheetDAO {
 //		  `week_end_date` DATETIME NOT NULL,
 		
 		
-		
+		if(t.getMonHours() < 0) {
+			System.out.println("negative number");
+			throw new SQLException();
+		}
 		
 		int savedTimeSheetId = t.getTimeSheetId();
 		
@@ -105,6 +102,47 @@ public class TimeSheetDAO {
 		
 		ResultSet results = stm.executeQuery(); //wll return the rowcount
 		
+		
+		
+		
+	}
+	
+	
+	public void addNewTimeSheet(User u, String parsedDate) throws SQLException {
+		
+//		  `timeSheetId` INT(11) NOT NULL AUTO_INCREMENT,
+//		  `userId` INT(11) NOT NULL,
+//		  `statusId` INT(11) NOT NULL,
+//		  `mon_hours` FLOAT UNSIGNED NULL DEFAULT '0',
+//		  `tue_hours` FLOAT UNSIGNED NULL DEFAULT '0',
+//		  `wed_hours` FLOAT UNSIGNED NULL DEFAULT '0',
+//		  `thu_hours` FLOAT UNSIGNED NULL DEFAULT '0',
+//		  `fri_hours` FLOAT UNSIGNED NULL DEFAULT '0',
+//		  `sat_hours` FLOAT UNSIGNED NULL DEFAULT '0',
+//		  `sun_hours` FLOAT UNSIGNED NULL DEFAULT '0',
+//		  `week_end_date` DATETIME NOT NULL,
+		
+		
+		
+		
+		
+		
+		
+		String url = "jdbc:mysql://localhost:3306/TimesheetPortal";
+		Connection conn = DriverManager.getConnection(url, "root", "");
+		//run sql commands
+		
+		
+		
+		
+		
+		
+		PreparedStatement stm = conn.prepareStatement("Insert into timesheet (userId, week_end_date)  Values( ?, ? ) ;");
+		
+		stm.setInt(1, u.getUserId());
+		stm.setString(2, parsedDate);
+		System.out.println("Prepared Stm" + stm.toString());
+		stm.executeUpdate(); //wll return the rowcount
 		
 		
 		

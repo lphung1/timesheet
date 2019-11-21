@@ -55,7 +55,7 @@ DROP TABLE IF EXISTS `TimesheetPortal`.`timeSheet` ;
 CREATE TABLE IF NOT EXISTS `TimesheetPortal`.`timeSheet` (
   `timeSheetId` INT(11) NOT NULL AUTO_INCREMENT,
   `userId` INT(11) NOT NULL,
-  `statusId` INT(11) NOT NULL,
+  `statusId` INT(11) NOT NULL DEFAULT '1',
   `mon_hours` FLOAT UNSIGNED NULL DEFAULT '0',
   `tue_hours` FLOAT UNSIGNED NULL DEFAULT '0',
   `wed_hours` FLOAT UNSIGNED NULL DEFAULT '0',
