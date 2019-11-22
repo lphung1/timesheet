@@ -27,12 +27,13 @@ public class TimeSheetDAO {
 		Connection conn = null;
 		
 		try {
+			Class.forName("com.mysql.cj.jdbc.Driver");
 			String url = "jdbc:mysql://localhost:3306/TimesheetPortal";
 			conn = DriverManager.getConnection(url, "root", "");
 			return conn;
 			
 			
-		} catch (SQLException e) {
+		} catch (SQLException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			System.out.println(e);
