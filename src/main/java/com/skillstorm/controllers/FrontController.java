@@ -23,6 +23,8 @@ public class FrontController extends HttpServlet{
 		case "/timesheet-portal/api/Timesheets":
 			if(true) {
 				
+				TimesheetController.getAllTimesheets(req, resp);
+				
 			}
 			break;
 		default:
