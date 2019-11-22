@@ -4,7 +4,7 @@ import com.skillstorm.data.TimeSheetDAO;
 
 public class TimeSheetService {
 
-	public static Object getAllTimeSheet() {
+	public Object getAllTimeSheet() {
 		
 		
 		TimeSheetDAO t = new TimeSheetDAO();

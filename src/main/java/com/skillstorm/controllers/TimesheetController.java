@@ -10,13 +10,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.skillstorm.service.TimeSheetService;
 
 public class TimeSheetController {
+	
+	TimeSheetService tsService = new TimeSheetService();
 
-	public static void getAllTimesheets(HttpServletRequest req, HttpServletResponse resp) throws JsonProcessingException, IOException {
+	public void getAllTimesheets(HttpServletRequest req, HttpServletResponse resp) throws JsonProcessingException, IOException {
 		// TODO Auto-generated method stub
 		
 		resp.setContentType("application/json");
 		
-		resp.getWriter().println(new ObjectMapper().writeValueAsString(TimeSheetService.getAllTimeSheet()));
+		resp.getWriter().println(new ObjectMapper().writeValueAsString(tsService.getAllTimeSheet()));
 
 		
 	}
