@@ -18,6 +18,13 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>6.0.6</version>
+		</dependency>
+
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
@@ -49,8 +56,9 @@
 
 	<build>
 		<plugins>
-			<!-- Maven Compiler Plugin : new maven goal, sometimes bind to build lifecycle phase, compile, test, package, install, deploy etc
-				could be a plugin goal like tomcat7:deploy (install) -->
+			<!-- Maven Compiler Plugin : new maven goal, sometimes bind to build lifecycle 
+				phase, compile, test, package, install, deploy etc could be a plugin goal 
+				like tomcat7:deploy (install) -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>

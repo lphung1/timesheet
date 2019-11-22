@@ -41,6 +41,8 @@ public class UserDao {
 		System.out.println("results " + results.getString("userId") );
 		}
 		
+		
+		
 		UserDao u = new UserDao();
 		
 		System.out.println("Get User Method " + u.getUserById(2) );
@@ -50,7 +52,7 @@ public class UserDao {
 		
 //		t.addNewTimeSheet(u.getUserById(1) ,  parsedDate ) ;
 //		
-//		System.out.println(t.findAllTimeSheet());
+		System.out.println(t.findAllTimeSheet());
 		
 		
 		
@@ -100,8 +102,14 @@ public class UserDao {
 		stm.setString(2, passWord);
 		
 		ResultSet rs = stm.executeQuery();
-		System.out.println("Result set for verify user ");
+		System.out.println("Result set for verify user " + rs);
 		
+		rs.next();
+		
+		if(rs.getString("userName") == usrName && rs.getString("password") == passWord) {
+			return true;
+		}
+
 		//webhook test
 		
 		

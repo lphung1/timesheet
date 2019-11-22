@@ -1,6 +1,7 @@
 package com.skillstorm.data;
 
 import java.sql.Connection;
+
 import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -15,10 +16,32 @@ import com.skillstorm.models.User;
 public class TimeSheetDAO {
 	
 //	public User findByUsername() {};
-//	public List<TimeSheet> findTimeSheetsByUser(int id){};
+
 //	public Timesheet findTimeSheetById() {}
 //	public Timesheet save(Timesheet t) {}
 //	public Timesheet update(Timesheet t){}
+	
+	
+	public Connection getConnection() {
+		
+		Connection conn = null;
+		
+		try {
+			String url = "jdbc:mysql://localhost:3306/TimesheetPortal";
+			conn = DriverManager.getConnection(url, "root", "");
+			return conn;
+			
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println(e);
+			return conn;
+		}
+		
+		
+		
+	}
 	
 	
 	public TimeSheet getTimeSheetById(int i) throws SQLException{
@@ -39,12 +62,15 @@ public class TimeSheetDAO {
 	
 
 	
-	public List<TimeSheet> findAllTimeSheet() throws SQLException{
+	public List<TimeSheet> findAllTimeSheet(){
 		
 		List<TimeSheet> timeList = new ArrayList<>();
 		
 		String url = "jdbc:mysql://localhost:3306/TimesheetPortal";
-		Connection conn = DriverManager.getConnection(url, "root", "");
+		
+		try {
+		
+		Connection conn = getConnection();
 		//run sql commands
 		PreparedStatement stm = conn.prepareStatement("Select * from timesheet;");
 		//stm.setInt(1, i);
@@ -57,8 +83,17 @@ public class TimeSheetDAO {
 
 		}
 		
+		return timeList;
+		
+		}catch(SQLException e) {
+			
+			
+			System.out.println(e);
+			
+		}
 		
 		return timeList;
+		
 		
 	}
 	
@@ -123,11 +158,6 @@ public class TimeSheetDAO {
 //		  `week_end_date` DATETIME NOT NULL,
 		
 		
-		
-		
-		
-		
-		
 		String url = "jdbc:mysql://localhost:3306/TimesheetPortal";
 		Connection conn = DriverManager.getConnection(url, "root", "");
 		//run sql commands
@@ -148,6 +178,38 @@ public class TimeSheetDAO {
 		
 	}
 	
+	
+	public List<TimeSheet> findTimeSheetsByUser(int id){
+		
+		Connection conn = getConnection();
+		List<TimeSheet> timeList = new ArrayList<>();
+		
+		
+		try {
+		
+		PreparedStatement stm = conn.prepareStatement("Select * from timesheet where userId = ? ;");
+		stm.setInt(1, id);
+		//stm.setInt(1, i);
+		ResultSet results = stm.executeQuery(); //wll return the rowcount
+		results.next();
+		
+		while(results.next()) {
+			
+			timeList.add(new TimeSheet(results));
+
+		}
+		
+		return timeList;
+		
+		}catch(SQLException e) {
+			System.out.println("FindTimeSheetByUser DAO: " + e);
+			return timeList;
+		}
+		
+		
+		
+		
+	}
 	
 	
 	
