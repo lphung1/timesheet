@@ -28,9 +28,7 @@ public class TimeSheet {
 		satHours = r.getFloat(9);
 		sunHours = r.getFloat(10);
 		weekEndDate = r.getDate(11);
-		
-		
-		
+
 		
 	}
 	
