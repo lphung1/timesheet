@@ -26,6 +26,8 @@ public class TimeSheetController {
 
 		// if userId is null, return all timesheets
 		if (req.getParameter("userId") == null) {
+			
+			System.out.println("TimeSheetController: getTimesheets, userId null, retrieving all timesheets");
 			resp.getWriter().println(new ObjectMapper().writeValueAsString(tsService.getAllTimeSheet()));
 			resp.setStatus(201);
 		} else if (req.getParameter("userId") != null) {

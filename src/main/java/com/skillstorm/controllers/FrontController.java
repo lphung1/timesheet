@@ -24,7 +24,7 @@ public class FrontController extends HttpServlet{
 			
 			if (req.getMethod().equals("POST")) {
 				System.out.println("user POST method in front controller called: ");
-				usrController.getUser(req, resp);
+				usrController.postUser(req, resp);
 				return;
 			}else if(req.getMethod().equals("GET")) {
 				System.out.println("user GET method in front controller called: ");

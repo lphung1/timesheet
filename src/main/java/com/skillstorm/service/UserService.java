@@ -28,6 +28,28 @@ public class UserService {
 		
 	}
 	
+	public User verifyAndGetUserByUserObj(User u) {
+		
+		
+		User thisUser = new User();
+		
+		System.out.println("UserService, getuser called");
+		System.out.println("usrName : " + u.getUserName() + " password: " + u.getPassword());
+		
+		if (userDao.verifyUser(u.getUserName(), u.getPassword() ) ){
+			
+			System.out.println("User verified in service");
+			thisUser = userDao.getUser(u.getUserName() ,u.getPassword());
+			
+			
+		}
+		
+		
+		return thisUser;
+		
+		
+	}
+	
 	
 	
 
