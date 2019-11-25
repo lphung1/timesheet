@@ -27,9 +27,19 @@ public class UserController {
 		System.out.println("User Controller, get user called");
 		
 		if (req.getParameter("userName") != null && req.getParameter("password") != null) {
-			resp.getWriter().println(
-					new ObjectMapper().writeValueAsString(u.verifyAndGetUser(req.getParameter("userName") , req.getParameter("password") ) ));
-			resp.setStatus(201);
+			try {
+				
+				resp.getWriter().println(
+						new ObjectMapper().writeValueAsString(u.verifyAndGetUser(req.getParameter("userName") , req.getParameter("password"), resp ) ));
+				resp.setStatus(201);
+				
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				resp.setStatus(401);
+				e.printStackTrace();
+			}
+			
+			
 
 		}
 		
@@ -45,8 +55,13 @@ public class UserController {
 //		// headers
 //		resp.setStatus(201);
 		
-		System.out.println("User Controller, Post User valled ");
+		
+		
+		
+		
 		resp.getWriter().println((new ObjectMapper().writeValueAsString( u.verifyAndGetUserByUserObj(new ObjectMapper().readValue(req.getInputStream(), User.class))) ) );
+		
+		
 		
 	}
 	

@@ -1,9 +1,11 @@
+
 document.getElementById('logInButtonId').addEventListener('click', function(e){
-        e.preventDefault(); // stops expecting a new page/refresh
+        e.preventDefault(e); // stops expecting a new page/refresh
         let user = {
 
             userName: document.getElementById('userName').value,
             password: document.getElementById('password').value
+            
 
         }
 
@@ -11,18 +13,30 @@ document.getElementById('logInButtonId').addEventListener('click', function(e){
         // 1 callback for a successful response
         //another callback for a failed response
         console.log('Submit clicked');
+        //window.location.replace('http://localhost:8080/timesheet-portal/home.html');
         //1 callback for a successful response
         promise.then(function(response){
             //200s
-            console.log(response.userName);
-            console.log(response.password);
+
+            
+            console.log('then called');
+            console.log('then called and response.username not null');
+            
+            //addName(response.data);
+
+            //appendArtist(response.password);
+
+            console.log('response name ' + response.userName);
+            console.log('response p' + response.password);
+            console.log('response data' + response.data);
+            console.log('response data element' + response.data.userName);
+            
             let b = document.createElement('h1');
             b.innerText = 'Login Good';
             document.getElementById('title').appendChild(b);
 
-            //window.location.replace('http://localhost:8080/timesheet-portal/login.html');
-            //appendArtist(response.password);
-            console.log(response);
+
+            
   
         });
         //another callback for a failed response
@@ -54,3 +68,52 @@ document.getElementById('timesheetButton').addEventListener('click', function(e)
 
 
 });
+
+//on loaded page on home.html
+document.addEventListener('DOMContentLoaded', function(e){
+
+
+    
+
+
+});
+
+
+function fillTableWithTimesheets(list){
+
+    for(let artist of list){
+        appendTimesheet(TimeSheet);
+    }
+
+
+};
+
+function appendTimesheet(TimeSheet){
+
+
+};
+
+//adds usernamem to timesheet
+function addName(user){
+
+
+    // {
+    //     "userName": "lphung1",
+    //     "password": "pickles",
+    //     "firstName": "Loi",
+    //     "lastName": "Phung",
+    //     "jobTitle": "Trainee",
+    //     "userId": 1,
+    //     "role": 1
+    // }
+
+    let fName = user.firstName;
+    let lName = user.lastName;
+    let uID = user.userId;
+
+    getElementById('nameId').innerText = fName;
+
+
+}
+
+

@@ -105,7 +105,6 @@ public class UserDao {
 //		  `jobTitle` VARCHAR(45) NULL DEFAULT NULL,
 //		  `roleId` INT(11) NULL DEFAULT NULL,
 
-		String url = "jdbc:mysql://localhost:3306/TimesheetPortal";
 		Connection conn = getConnection();
 
 		usrName.toLowerCase();
@@ -131,8 +130,10 @@ public class UserDao {
 			}
 
 		} catch (SQLException e) {
+			
 			System.out.println("Verify user failed with SQL exception in UserDao");
 			System.out.println(e);
+			return false;
 		}
 
 		return false;

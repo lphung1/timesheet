@@ -1,5 +1,11 @@
 package com.skillstorm.service;
 
+import java.io.IOError;
+import java.io.IOException;
+import java.sql.SQLException;
+
+import javax.servlet.http.HttpServletResponse;
+
 import com.skillstorm.data.UserDao;
 import com.skillstorm.models.User;
 
@@ -7,25 +13,17 @@ public class UserService {
 	
 	UserDao userDao = new UserDao();
 	
+
 	
-	public User verifyAndGetUser(String usrName, String password) {
+	public boolean verifyUser(String usrName, String password) {
 		
-		User thisUser = new User();
-		
-		System.out.println("UserService, getuser called");
-		System.out.println("usrName : " + usrName + " password: " + password);
-		
-		if (userDao.verifyUser(usrName, password)){
-			
-			System.out.println("User verified in service");
-			thisUser = userDao.getUser(usrName, password);
-			
-			
+		System.out.println("UserService: verifyUser: ");
+		if(userDao.verifyUser(usrName, password)) {
+			return true;
 		}
 		
 		
-		return thisUser;
-		
+		return false;
 	}
 	
 	public User verifyAndGetUserByUserObj(User u) {
@@ -46,6 +44,28 @@ public class UserService {
 		
 		
 		return thisUser;
+		
+		
+	}
+
+	public User verifyAndGetUser(String usrName, String password, HttpServletResponse resp) {
+		User thisUser = new User();
+		
+		System.out.println("UserService, getuser called");
+		System.out.println("usrName : " + usrName + " password: " + password);
+		
+		if (userDao.verifyUser(usrName, password)){
+			
+			System.out.println("User verified in service");
+			thisUser = userDao.getUser(usrName, password);
+			
+		}
+		else {
+			resp.setStatus(401);
+		}
+		
+		return null;
+		
 		
 		
 	}
