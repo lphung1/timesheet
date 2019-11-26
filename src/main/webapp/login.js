@@ -159,6 +159,7 @@ function appendTimesheet(timeSheet){
     let satData = document.createElement('td');
     let sunData = document.createElement('td');
     let statusData = document.createElement('td');
+    let totalData = document.createElement('td');
     let dateData = document.createElement('td');
 
     let editButton = document.createElement('button');
@@ -173,6 +174,10 @@ function appendTimesheet(timeSheet){
     friData.innerText = timeSheet.friHours;
     satData.innerText = timeSheet.satHours;
     sunData.innerText = timeSheet.sunHours;
+    
+    totalData.innerText = timeSheet.monHours + timeSheet.tueHours + timeSheet.wedHours + timeSheet.thuHours + timeSheet.friHours + 
+    timeSheet.satHours + timeSheet.sunHours;
+
     statusData.innerText = setStatus(timeSheet.statusId);
     let dateFormat = new Date(timeSheet.weekEndDate);
     dateData.innerText = dateFormat.toLocaleDateString("en-US");
@@ -188,6 +193,7 @@ function appendTimesheet(timeSheet){
     tr.appendChild(friData);
     tr.appendChild(satData);
     tr.appendChild(sunData);
+    tr.appendChild(totalData);
     tr.appendChild(statusData);
     tr.appendChild(dateData);
 
