@@ -156,7 +156,10 @@ function appendTimesheet(timeSheet){
     let submitButton = document.createElement('button');
 
     editButton.setAttribute('id', 'editButton' + timeSheet.timeSheetId );
+    editButton.setAttribute('value', timeSheet.timeSheetId);
+
     deleteButton.setAttribute('id', 'deleteButton' + timeSheet.timeSheetId);
+    deleteButton.setAttribute('value', timeSheet.timeSheetId);
 
     submitButton.setAttribute('id', 'timeSheet' + timeSheet.timeSheetId);
     submitButton.setAttribute('value', timeSheet.timeSheetId);
@@ -242,7 +245,20 @@ document.getElementById('timeSheetTable').addEventListener('click', function(e){
         });
 
     }else if(e.target.innerText == 'Delete'){
+        console.log("Delete clicked" + "e.target.value");
+
+        let tsId = e.target.value;
+        let apiUri = 'http://localhost:8080/timesheet-portal/api/timesheets?timesheetId=' + tsId;
         
+
+        var deleteTimeSheetPromise = axios.delete(apiUri);
+
+        deleteTimeSheetPromise.then(function(response){
+
+            console.log("delete process requested");
+            
+        
+         });
     }
 
 

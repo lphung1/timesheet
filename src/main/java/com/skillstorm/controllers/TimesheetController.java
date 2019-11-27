@@ -74,6 +74,16 @@ public class TimeSheetController {
 		
 	}
 	
+	public void deleteTimesheet(HttpServletRequest req, HttpServletResponse resp) {
+		
+		resp.setContentType("application/json");
+		System.out.println("DeleteTimesheet called in timesheet controller, trying to delete");
+		
+		tsService.deleteTimeSheet(Integer.parseInt(req.getParameter("timesheetId")));
+		
+		
+	}
+	
 	
 	
 

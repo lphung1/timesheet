@@ -53,6 +53,10 @@ public class FrontController extends HttpServlet{
 				tsController.putTimesheets(req, resp);
 				
 			}
+			else if(req.getMethod().equals("DELETE")) {
+				System.out.println("timesheet/ DELETE method in front controller called: ");
+				tsController.deleteTimesheet(req, resp);
+			}
 			
 			break;
 			
@@ -82,6 +86,14 @@ public class FrontController extends HttpServlet{
 		// TODO Auto-generated method stub
 		doDispatch(req, resp);
 	}
+
+	@Override
+	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doDispatch(req, resp);
+	}
+	
+	
 	
 	
 

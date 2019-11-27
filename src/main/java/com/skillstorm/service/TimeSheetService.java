@@ -51,6 +51,11 @@ public class TimeSheetService {
 		return t.getTimeSheetById(i);
 	}
 	
+	public void deleteTimeSheet(int i) {
+		System.out.println("timesheet service, delete called: ");
+		t.deleteTimeSheet(i);
+	}
+	
 	
 	
 

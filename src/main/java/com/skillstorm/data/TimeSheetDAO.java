@@ -242,5 +242,31 @@ public class TimeSheetDAO {
 		}
 
 	}
+	
+	
+	public void deleteTimeSheet(int i) {
+		
+		Connection conn = getConnection();
+		
+		try {
+			System.out.println("Delete called in Dao: ");
+			
+			PreparedStatement stm = conn.prepareStatement("Delete from timesheet where timeSheetId = ? ;");
+			stm.setInt(1, i);
+			// stm.setInt(1, i);
+			int results = stm.executeUpdate(); // wll return the rowcount
+			
+
+			System.out.println("Rows affected " + results);
+
+		} catch (SQLException e) {
+			System.out.println("FindTimeSheetByUser DAO: " + e);
+			
+		}
+		
+		
+		
+		
+	}
 
 }
