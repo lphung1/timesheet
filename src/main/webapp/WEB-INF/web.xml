@@ -15,8 +15,19 @@
 	<servlet-mapping>
 		<servlet-name>front</servlet-name>
 		<url-pattern>/api/*</url-pattern>
-		
+
 	</servlet-mapping>
+
+	<filter>
+		<filter-name>cors</filter-name>
+		<filter-class>com.skillstorm.controllers.CORSFilter</filter-class>
+
+	</filter>
+
+	<filter-mapping>
+		<filter-name>cors</filter-name>
+		<url-pattern>/api/*</url-pattern>
+	</filter-mapping>
 
 
 

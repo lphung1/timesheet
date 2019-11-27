@@ -142,7 +142,7 @@ public class TimeSheetDAO {
 			Connection conn = getConnection();
 			// run sql commands
 			PreparedStatement stm = conn.prepareStatement("UPDATE timesheet SET "
-					+ "mon_hours = ?, tue_hours = ?, wed_hours = ?, thu_hours = ?, fri_hours = ?, sat_hours = ?, sun_hours = ? "
+					+ "mon_hours = ?, tue_hours = ?, wed_hours = ?, thu_hours = ?, fri_hours = ?, sat_hours = ?, sun_hours = ?, statusId = ? "
 					+ "WHERE timesheetID = ?; ");
 			// TODO finish the rest
 			stm.setFloat(1, t.getMonHours());
@@ -152,7 +152,8 @@ public class TimeSheetDAO {
 			stm.setFloat(5, t.getFriHours());
 			stm.setFloat(6, t.getSatHours());
 			stm.setFloat(7, t.getSunHours());
-			stm.setInt(8, t.getTimeSheetId());
+			stm.setInt(8, t.getStatusId());
+			stm.setInt(9, t.getTimeSheetId());
 
 			System.out.println("stm query statement: " + stm.toString());
 			int rowAffected = stm.executeUpdate(); // wll return the rowcount

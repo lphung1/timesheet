@@ -45,6 +45,12 @@ public class TimeSheetService {
 		
 	}
 	
+	public Object getTimeSheetById(int i) {
+		
+		System.out.println("GetTimeSheetById called in service: ");
+		return t.getTimeSheetById(i);
+	}
+	
 	
 	
 

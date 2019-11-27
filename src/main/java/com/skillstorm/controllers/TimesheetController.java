@@ -25,13 +25,17 @@ public class TimeSheetController {
 		resp.setContentType("application/json");
 
 		// if userId is null, return all timesheets
-		if (req.getParameter("userId") == null) {
-			
-			System.out.println("TimeSheetController: getTimesheets, userId null, retrieving all timesheets");
-			resp.getWriter().println(new ObjectMapper().writeValueAsString(tsService.getAllTimeSheet()));
-			resp.setStatus(201);
+		if (req.getParameter("timesheetId") != null) {
+			System.out.println("Timesheet controller: timesheetID != null");
+			resp.getWriter().println(new ObjectMapper().writeValueAsString(tsService.getTimeSheetById(Integer.parseInt(req.getParameter("timesheetId")) )));
+
 		} else if (req.getParameter("userId") != null) {
 			resp.getWriter().println(new ObjectMapper().writeValueAsString(tsService.getUserTimeSheets(Integer.parseInt(req.getParameter("userId")))));
+			resp.setStatus(201);
+		}
+		else {
+			System.out.println("TimeSheetController: getTimesheets, userId null, retrieving all timesheets");
+			resp.getWriter().println(new ObjectMapper().writeValueAsString(tsService.getAllTimeSheet()));
 			resp.setStatus(201);
 		}
 
@@ -64,16 +68,13 @@ public class TimeSheetController {
 	
 	public void putTimesheets(HttpServletRequest req, HttpServletResponse resp) throws JsonParseException, JsonMappingException, IOException{
 		resp.setContentType("application/json");
-		
-		if(req.getParameter("timesheetId") != null) {
-			
-			
+			System.out.println("Put called, trying to update timehseet");
 			tsService.update(new ObjectMapper().readValue(req.getInputStream(), TimeSheet.class));
-			
-		}
-		
-		
+
 		
 	}
+	
+	
+	
 
 }

@@ -56,7 +56,6 @@ document.getElementById('timesheetButton').addEventListener('click', function(e)
         //200s
         response.log;
         fillTimeSheet(response.data);
-        
 
     });
     //another callback for a failed response
@@ -69,6 +68,8 @@ document.getElementById('timesheetButton').addEventListener('click', function(e)
 
 
 });
+
+
 
 //on loaded page on home.html
 document.addEventListener('DOMContentLoaded', function(e){
@@ -106,21 +107,6 @@ function addName(user){
 }
 
 
-
-// function appendArtist(artist){
-//     //template logic
-//     let tr = document.createElement('tr');
-//     let id = document.createElement('td');
-//     id.innerText = artist.artistId;
-//     let name = document.createElement('td');
-//     name.innerText = artist.name;
-//     tr.appendChild(id); 
-//     tr.appendChild(name);
-//     document.getElementById('list').appendChild(tr);
-
-// };
-
-
 // "monHours": 3.0,
 // "tueHours": 4.0,
 // "wedHours": 5.0,
@@ -134,7 +120,10 @@ function addName(user){
 // "statusId": 2,
 // "weekEndDate": 1573362000000
 
+
+//timesheet object
 timeSheet = {
+    timeSheetId: '',
     monHours: '',
     tueHours: '',
     wedhours: '',
@@ -147,7 +136,7 @@ timeSheet = {
 
 }
 
-
+//appends and adds a timesheet object to the table
 function appendTimesheet(timeSheet){
 
     let tr = document.createElement('tr');
@@ -166,6 +155,14 @@ function appendTimesheet(timeSheet){
     let deleteButton = document.createElement('button');
     let submitButton = document.createElement('button');
 
+    editButton.setAttribute('id', 'editButton' + timeSheet.timeSheetId );
+    deleteButton.setAttribute('id', 'deleteButton' + timeSheet.timeSheetId);
+
+    submitButton.setAttribute('id', 'timeSheet' + timeSheet.timeSheetId);
+    submitButton.setAttribute('value', timeSheet.timeSheetId);
+    
+    console.log('edit button id' + editButton.id);
+
 
     monData.innerText = timeSheet.monHours;
     tueData.innerText = timeSheet.tueHours;
@@ -174,7 +171,7 @@ function appendTimesheet(timeSheet){
     friData.innerText = timeSheet.friHours;
     satData.innerText = timeSheet.satHours;
     sunData.innerText = timeSheet.sunHours;
-    
+
     totalData.innerText = timeSheet.monHours + timeSheet.tueHours + timeSheet.wedHours + timeSheet.thuHours + timeSheet.friHours + 
     timeSheet.satHours + timeSheet.sunHours;
 
@@ -198,17 +195,63 @@ function appendTimesheet(timeSheet){
     tr.appendChild(dateData);
 
     if(statusData.innerText == 'Pending'){
-        console.log('trying to append buttons')
+        //console.log('trying to append buttons')
         tr.appendChild(editButton);
-        tr.appendChild(deleteButton);
+        //tr.appendChild(deleteButton); //enable when done testing
         tr.appendChild(submitButton);
-    }
+    }  
+
+    tr.appendChild(deleteButton); 
+    
 
     document.getElementById('timeSheetTable').appendChild(tr);
 
 
 }
 
+// document.getElementById('editButton').addEventListener('click',function(e){
+
+
+// } );
+
+document.getElementById('timeSheetTable').addEventListener('click', function(e){
+
+    console.log('timesheet table element clicked: target' + e.target);
+    console.log('value: ' + e.target.value);
+    console.log('ID: ' + e.target.id + " Inner Text: " + e.target.innerText);
+
+    //if submit butten pressed
+    if(e.target.innerText == 'Submit'){
+        let tsId = e.target.value;
+        let apiUri = 'http://localhost:8080/timesheet-portal/api/timesheets?timesheetId=' + tsId;
+        let getPromise = axios.get(apiUri);
+
+        getPromise.then(function(response){
+            //200s
+            console.log(response.data);
+            var thisTimeSheet = response.data;
+            thisTimeSheet.statusId = '2';
+
+            let updateStatusPromise = axios.put("http://localhost:8080/timesheet-portal/api/timesheets", thisTimeSheet);
+
+            updateStatusPromise.then(function(updateResponse) {
+                console.log("submit xhr successfull ");
+
+            });
+
+        });
+
+    }else if(e.target.innerText == 'Delete'){
+        
+    }
+
+
+
+});
+
+//document.getelementbyId("name" +editButton.Value ).getattribute(value)
+
+//fills the table with timesheets
 function fillTimeSheet(list){
 
     for(let timeSheet of list){
