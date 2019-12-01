@@ -56,6 +56,11 @@ public class TimeSheetService {
 		t.deleteTimeSheet(i);
 	}
 	
+	public boolean dateExist(int i, String d) {
+		
+		return t.dateExist(i, d);
+	}
+	
 	
 	
 

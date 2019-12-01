@@ -268,5 +268,39 @@ public class TimeSheetDAO {
 		
 		
 	}
+	
+	
+	public boolean dateExist(int uId, String parsedDate) {
+		
+		Connection conn = getConnection();
+		// run sql commands
+
+		try {
+
+			PreparedStatement stm = conn.prepareStatement("Select week_end_date from timesheet where userId = ? AND week_end_date = ? ;");
+
+			stm.setInt(1, uId);
+			stm.setString(2, parsedDate);
+			System.out.println("Prepared Stm to be added " + stm.toString());
+			
+			ResultSet result = stm.executeQuery(); // wll return the rowcount
+			
+			if(result.next()) {
+				
+				return true;
+				
+			}
+				
+				return false;
+			
+
+		} catch (SQLException e) {
+			System.out.println(e);
+			return false;
+		}
+		
+		
+		
+	}
 
 }

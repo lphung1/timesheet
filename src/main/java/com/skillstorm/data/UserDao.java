@@ -128,6 +128,7 @@ public class UserDao {
 				System.out.println("Username Password Match in DB");
 				return true;
 			}
+			else return false;
 
 		} catch (SQLException e) {
 			
@@ -136,7 +137,7 @@ public class UserDao {
 			return false;
 		}
 
-		return false;
+		
 	}
 
 	public User getUser(String usrName, String passWord) {

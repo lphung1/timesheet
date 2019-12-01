@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="UTF-8">
-<title id = title>Login Page</title>
-</head>
 
-<body id = formBody>Please enter your Username and Password</body>
+<h1 id = formHeader>Please enter your Username and Password</h1>
 
-	        <form id = 'loginForm'>
+<div id = 'loginFormId'>
+
+    
+
+	    <form id = 'loginForm'>
             <label>Username </label><input type= "text" name="userName" id = "userName"><br>
             <label>Password </label><input type= "password" name="password" id = "password"><br>
 
@@ -15,13 +15,23 @@
 
         <input id = 'logInButtonId', type= 'Submit' value = 'Login'><br>
 
+</div>
+
         <input id = 'timesheetButton' type= "Submit" value = "Open Timesheets"><br>
 
-        <div>
+        <div id = timeSheetDivId> 
 
             <table id = timeSheetTable>
+                    <thead id = 'timeSheetTableHead'>
                     <tr> <th>Monday </th> <th>Tuesday </th> <th>Wednsday </th><th>Thursday </th><th>Friday </th><th>Saturday </th> <th>Sunnday </th> <th>Total Hours </th> <th>Status </th> <th>Week End Date </th> 
                         <th> <input id = addTimeSheetId, type ='button' value = 'Add new Timesheet'> </th> </tr>
+                    </thead>
+
+                    <tbody id = "timeSheetTableBody">
+
+
+                    </tbody>
+
             </table>
 
         </div>

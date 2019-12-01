@@ -52,14 +52,24 @@ public class TimeSheetController {
 			
 			System.out.println("Timesheet controller, POST timesheet, add time sheet called: ");
 			
-			tsService.addNewTimesheet(Integer.parseInt(req.getParameter("userId")), req.getParameter("date"));
-			resp.getWriter().println(new ObjectMapper()
-					.writeValueAsString(tsService.getUserTimeSheets(Integer.parseInt(req.getParameter("userId")))));
-			resp.setStatus(201);
+			if(tsService.dateExist(Integer.parseInt(req.getParameter("userId")), req.getParameter("date")) ) {
+				
+				System.out.println("date already exist.");
+				resp.setStatus(406);
+				
+			}
+			else {
+				tsService.addNewTimesheet(Integer.parseInt(req.getParameter("userId")), req.getParameter("date"));
+				resp.getWriter().println(new ObjectMapper()
+						.writeValueAsString(tsService.getUserTimeSheets(Integer.parseInt(req.getParameter("userId")))));
+				resp.setStatus(201);
+			}
+			
+			
 			
 		}
 		else { //return error
-			
+			resp.setStatus(402);
 			
 		}
 		

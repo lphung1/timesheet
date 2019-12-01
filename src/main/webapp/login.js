@@ -1,18 +1,34 @@
 
 document.getElementById('logInButtonId').addEventListener('click', function(e){
         e.preventDefault(e); // stops expecting a new page/refresh
-        let user = {
+        user = {
+            //-------model data for reference------
+            // userId = r.getInt("userId");
+            // userName = r.getString("userName");
+            // password = r.getString("password");
+            // firstName = r.getString("firstName");
+            // lastName = r.getString("lastName");
+            // role = r.getInt("roleId");
+            // jobTitle = r.getString("jobTitle");
 
             userName: document.getElementById('userName').value,
-            password: document.getElementById('password').value
+            password: document.getElementById('password').value,
+            userId: '',
+            firstName: '',
+            lastName: '',
+            role: '',
+            jobTitle: ''
             
 
         }
+
+
 
         let promise = axios.post('http://localhost:8080/timesheet-portal/api/user', user); //axios returns a promise
         // 1 callback for a successful response
         //another callback for a failed response
         console.log('Submit clicked');
+        console.log(user.userName + " " + user.password);
         //window.location.replace('http://localhost:8080/timesheet-portal/home.html');
         //1 callback for a successful response
         promise.then(function(response){
@@ -30,10 +46,30 @@ document.getElementById('logInButtonId').addEventListener('click', function(e){
             console.log('response p' + response.password);
             console.log('response data' + response.data);
             console.log('response data element' + response.data.userName);
-            
-            let b = document.createElement('h1');
-            b.innerText = 'Login Good';
-            document.getElementById('title').appendChild(b);
+            thisUser = response.data;
+
+
+            document.getElementById('loginFormId').innerText = '';
+
+            //document.getElementById('formHeader').innerText = 'Hello ' + thisUser.firstName;
+
+            let getPromise = axios.get('http://localhost:8080/timesheet-portal/api/timesheets?userId=' + thisUser.userId);
+
+            getPromise.then(function(response){
+                //200s
+                
+                response.log;
+                
+                document.getElementById('timeSheetDivId').removeAttribute('hidden', true);
+                fillTimeSheet(response.data);
+                document.getElementById('formHeader').innerText = "Welcome " + thisUser.firstName;
+        
+            });
+            //another callback for a failed response
+            getPromise.catch(function(response){
+                //400s or 500s
+                console.log(response);
+            }) ; 
 
 
             
@@ -43,6 +79,9 @@ document.getElementById('logInButtonId').addEventListener('click', function(e){
         promise.catch(function(response){
             //400s or 500s
             console.log(response);
+            alert("login not found in database");
+
+
         }) ; 
 
 
@@ -50,11 +89,14 @@ document.getElementById('logInButtonId').addEventListener('click', function(e){
 
 document.getElementById('timesheetButton').addEventListener('click', function(e){
 
-    let promise = axios.get('http://localhost:8080/timesheet-portal/api/timesheets');
+    let promise = axios.get('http://localhost:8080/timesheet-portal/api/timesheets?userId=1');
 
     promise.then(function(response){
         //200s
+        
         response.log;
+        document.getElementById('timeSheetTableBody').innerText = '';
+
         fillTimeSheet(response.data);
 
     });
@@ -69,10 +111,37 @@ document.getElementById('timesheetButton').addEventListener('click', function(e)
 
 });
 
+function updateTable(uId){
+
+    let promise = axios.get('http://localhost:8080/timesheet-portal/api/timesheets?userId=' + uId);
+
+    promise.then(function(response){
+        //200s
+        
+        response.log;
+        document.getElementById('timeSheetTableBody').innerText = '';
+
+        fillTimeSheet(response.data);
+
+    });
+    //another callback for a failed response
+    promise.catch(function(response){
+        //400s or 500s
+        console.log(response);
+    }) ; 
+
+
+
+}
+
 
 
 //on loaded page on home.html
 document.addEventListener('DOMContentLoaded', function(e){
+
+    document.getElementById('timeSheetDivId').setAttribute('hidden', true);
+
+
 
 
     
@@ -151,6 +220,17 @@ function appendTimesheet(timeSheet){
     let totalData = document.createElement('td');
     let dateData = document.createElement('td');
 
+    monData.setAttribute('id', 'monData' + timeSheet.timeSheetId);
+    tueData.setAttribute('id', timeSheet.timeSheetId);
+    wedData.setAttribute('id', timeSheet.timeSheetId);
+    thrData.setAttribute('id', timeSheet.timeSheetId);
+    friData.setAttribute('id', timeSheet.timeSheetId);
+    satData.setAttribute('id', timeSheet.timeSheetId);
+    sunData.setAttribute('id', timeSheet.timeSheetId);
+    statusData.setAttribute('id', timeSheet.timeSheetId);
+    totalData.setAttribute('id', timeSheet.timeSheetId);
+    dateData.setAttribute('id', timeSheet.timeSheetId);
+
     let editButton = document.createElement('button');
     let deleteButton = document.createElement('button');
     let submitButton = document.createElement('button');
@@ -203,19 +283,16 @@ function appendTimesheet(timeSheet){
         //tr.appendChild(deleteButton); //enable when done testing
         tr.appendChild(submitButton);
     }  
-
+    //comment out when done testing
     tr.appendChild(deleteButton); 
     
 
-    document.getElementById('timeSheetTable').appendChild(tr);
+    document.getElementById('timeSheetTableBody').appendChild(tr);
 
 
 }
 
-// document.getElementById('editButton').addEventListener('click',function(e){
 
-
-// } );
 
 document.getElementById('timeSheetTable').addEventListener('click', function(e){
 
@@ -239,6 +316,7 @@ document.getElementById('timeSheetTable').addEventListener('click', function(e){
 
             updateStatusPromise.then(function(updateResponse) {
                 console.log("submit xhr successfull ");
+                updateTable(thisUser.userId);
 
             });
 
@@ -256,14 +334,59 @@ document.getElementById('timeSheetTable').addEventListener('click', function(e){
         deleteTimeSheetPromise.then(function(response){
 
             console.log("delete process requested");
-            
+            updateTable(thisUser.userId); //update table
         
          });
+    }
+    else if(e.target.innerText == 'Edit'){
+
+        //e.target.innerText = 'Save';
+        let thisTimesheetValue = e.target.value;
+        console.log(thisTimesheetValue);
+
+        document.getElement
+
+        
+    }
+    else if(e.target.innerText = 'Add new Timesheet'){
+
+        let d = endOfWeek(new Date());
+        let dateString = d.toISOString().substring(0,10).replace('-', '').replace('-', '');
+        
+        
+        let promise = axios.post('http://localhost:8080/timesheet-portal/api/timesheets?userId=' + thisUser.userId + "&date=" + dateString) ;
+
+        promise.then(function(response){
+            //200s
+            
+            response.log;
+            document.getElementById('timeSheetTableBody').innerText = '';
+    
+            updateTable(thisUser.userId);
+            response.status
+    
+        });
+        //another callback for a failed response
+        promise.catch(function(response){
+            //400s or 500s
+            console.log(response);
+            alert("Week end date already exist, either delete and create a new one or wait until next week.");
+
+
+        }) ; 
+        
+
+
+
+
     }
 
 
 
 });
+
+
+
 
 //document.getelementbyId("name" +editButton.Value ).getattribute(value)
 
@@ -287,4 +410,14 @@ function setStatus (x){
     }
 
 }
+
+function endOfWeek(date)
+  {
+     
+    var lastday = date.getDate() - (date.getDay() - 1) + 6;
+    return new Date(date.setDate(lastday));
+ 
+  }
+
+
 
