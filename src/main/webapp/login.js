@@ -87,6 +87,7 @@ document.getElementById('logInButtonId').addEventListener('click', function(e){
 
 });
 
+//testing function @depricated
 document.getElementById('timesheetButton').addEventListener('click', function(e){
 
     let promise = axios.get('http://localhost:8080/timesheet-portal/api/timesheets?userId=1');
@@ -140,7 +141,7 @@ function updateTable(uId){
 document.addEventListener('DOMContentLoaded', function(e){
 
     document.getElementById('timeSheetDivId').setAttribute('hidden', true);
-
+    document.getElementById('timesheetButton').setAttribute('hidden', true);
 
 
 
@@ -220,13 +221,14 @@ function appendTimesheet(timeSheet){
     let totalData = document.createElement('td');
     let dateData = document.createElement('td');
 
+    tr.setAttribute('id', 'row' + timeSheet.timeSheetId);
     monData.setAttribute('id', 'monData' + timeSheet.timeSheetId);
-    tueData.setAttribute('id', timeSheet.timeSheetId);
-    wedData.setAttribute('id', timeSheet.timeSheetId);
-    thrData.setAttribute('id', timeSheet.timeSheetId);
-    friData.setAttribute('id', timeSheet.timeSheetId);
-    satData.setAttribute('id', timeSheet.timeSheetId);
-    sunData.setAttribute('id', timeSheet.timeSheetId);
+    tueData.setAttribute('id', 'tueData' + timeSheet.timeSheetId);
+    wedData.setAttribute('id', 'wedData' + timeSheet.timeSheetId);
+    thrData.setAttribute('id', 'thrData' + timeSheet.timeSheetId);
+    friData.setAttribute('id', 'friData' + timeSheet.timeSheetId);
+    satData.setAttribute('id', 'satData' + timeSheet.timeSheetId);
+    sunData.setAttribute('id', 'sunData' + timeSheet.timeSheetId);
     statusData.setAttribute('id', timeSheet.timeSheetId);
     totalData.setAttribute('id', timeSheet.timeSheetId);
     dateData.setAttribute('id', timeSheet.timeSheetId);
@@ -294,7 +296,7 @@ function appendTimesheet(timeSheet){
 
 
 
-document.getElementById('timeSheetTable').addEventListener('click', function(e){
+document.getElementById('timeSheetDivId').addEventListener('click', function(e){
 
     console.log('timesheet table element clicked: target' + e.target);
     console.log('value: ' + e.target.value);
@@ -340,15 +342,110 @@ document.getElementById('timeSheetTable').addEventListener('click', function(e){
     }
     else if(e.target.innerText == 'Edit'){
 
-        //e.target.innerText = 'Save';
-        let thisTimesheetValue = e.target.value;
-        console.log(thisTimesheetValue);
+        
+        thisTimesheetValue = e.target.value;
+        console.log("Edit button clicked, Value: " + thisTimesheetValue);
+        //creates another copy of temp elementes containing current timesheet data to transfer data to edit fields
+        //let thisTrEdit = document.getElementById('timeSheetDivId');
+        
+        let thisMonData = document.getElementById('monData' + thisTimesheetValue);
+        let thisTueData = document.getElementById('tueData' + thisTimesheetValue);
+        let thisWedData = document.getElementById('wedData' + thisTimesheetValue);
+        let thisThrData = document.getElementById('thrData' + thisTimesheetValue);
+        let thisFriData = document.getElementById('friData' + thisTimesheetValue);
+        let thisSatData = document.getElementById('satData' + thisTimesheetValue);
+        let thisSunData = document.getElementById('sunData' + thisTimesheetValue);
 
-        document.getElement
+        let thisSubmit = document.createElement('button');
+        thisSubmit.value = thisTimesheetValue;
+        thisSubmit.innerText = 'Save';
+        //creats input fields to edit timesheet
+        monEdit = document.createElement('input');
+        tueEdit = document.createElement('input');
+        wedEdit = document.createElement('input');
+        thrEdit = document.createElement('input');
+        friEdit = document.createElement('input');
+        satEdit = document.createElement('input');
+        sunEdit = document.createElement('input');
+        //sets input fields to input and number
+        monEdit.setAttribute('input', 'number');
+        tueEdit.setAttribute('input', 'number');
+        wedEdit.setAttribute('input', 'number');
+        thrEdit.setAttribute('input', 'number');
+        friEdit.setAttribute('input', 'number');
+        satEdit.setAttribute('input', 'number');
+        sunEdit.setAttribute('input', 'number');
+        //copies values over
+        monEdit.value = thisMonData.innerText;
+        tueEdit.value = thisTueData.innerText;
+        wedEdit.value = thisWedData.innerText;
+        thrEdit.value = thisThrData.innerText;
+        friEdit.value = thisFriData.innerText;
+        satEdit.value = thisSatData.innerText;
+        sunEdit.value = thisSunData.innerText;
+
+
+        let tbl = document.getElementById('timeSheetDivId');
+        editTr = document.createElement('tr');
+
+
+        editTr.appendChild(monEdit)
+        editTr.appendChild(tueEdit);
+        editTr.appendChild(wedEdit);
+        editTr.appendChild(thrEdit);
+        editTr.appendChild(friEdit);
+        editTr.appendChild(satEdit);
+        editTr.appendChild(sunEdit);
+        editTr.appendChild(thisSubmit);
+
+        tbl.appendChild(editTr);
+
+        // thisMonData.replaceWith(monEdit);
+        // thisTueData.replaceWith(tueEdit);
+        // thisWedData.replaceWith(wedEdit);
+
 
         
     }
-    else if(e.target.innerText = 'Add new Timesheet'){
+    else if(e.target.innerText == 'Save'){
+        updateTimesheet = new Object;
+
+        updateTimesheet.monHours = monEdit.value;
+        updateTimesheet.tueHours = tueEdit.value;
+        updateTimesheet.wedHours = wedEdit.value;
+        updateTimesheet.thuHours = thrEdit.value;
+        updateTimesheet.friHours = friEdit.value;
+        updateTimesheet.satHours = satEdit.value;
+        updateTimesheet.sunHours = sunEdit.value;
+        updateTimesheet.userId = thisUser.userId;
+        updateTimesheet.statusId = 1;
+        updateTimesheet.timeSheetId = thisTimesheetValue;
+        
+        console.log('Save button clicked, Value: ' + e.target.value);
+        console.log(updateTimesheet);
+        
+
+        let promise = axios.put('http://localhost:8080/timesheet-portal/api/timesheets', updateTimesheet);
+
+        promise.then(function(response){
+            //200s
+            
+            response.log;
+            editTr.innerText = '';
+            updateTable(thisUser.userId);
+            
+    
+        });
+        //another callback for a failed response
+        promise.catch(function(response){
+            //400s or 500s
+            console.log(response);
+        }) ; 
+
+
+
+    }
+    else if(e.target.value == 'Add new Timesheet'){
 
         let d = endOfWeek(new Date());
         let dateString = d.toISOString().substring(0,10).replace('-', '').replace('-', '');
@@ -370,7 +467,7 @@ document.getElementById('timeSheetTable').addEventListener('click', function(e){
         promise.catch(function(response){
             //400s or 500s
             console.log(response);
-            alert("Week end date already exist, either delete and create a new one or wait until next week.");
+            alert("Already have a time sheet for this week end date, either delete and create a new one or wait until next week.");
 
 
         }) ; 
@@ -411,6 +508,7 @@ function setStatus (x){
 
 }
 
+//takes current date and returns the end of the week
 function endOfWeek(date)
   {
      
