@@ -88,7 +88,7 @@ public class TimeSheetDAO {
 
 			Connection conn = getConnection();
 			// run sql commands
-			PreparedStatement stm = conn.prepareStatement("Select * from timesheet;");
+			PreparedStatement stm = conn.prepareStatement("Select * from timesheet ORDER BY week_end_date;");
 			// stm.setInt(1, i);
 			ResultSet results = stm.executeQuery(); // wll return the rowcount
 
@@ -222,7 +222,7 @@ public class TimeSheetDAO {
 
 		try {
 
-			PreparedStatement stm = conn.prepareStatement("Select * from timesheet where userId = ? ;");
+			PreparedStatement stm = conn.prepareStatement("Select * from timesheet where userId = ? ORDER BY week_end_date;");
 			stm.setInt(1, id);
 			// stm.setInt(1, i);
 			ResultSet results = stm.executeQuery(); // wll return the rowcount

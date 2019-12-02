@@ -280,10 +280,13 @@ function appendTimesheet(timeSheet){
     tr.appendChild(dateData);
 
     if(statusData.innerText == 'Pending'){
-        //console.log('trying to append buttons')
+        
+        
         tr.appendChild(editButton);
+        //todo
         //tr.appendChild(deleteButton); //enable when done testing
         tr.appendChild(submitButton);
+
     }  
     //comment out when done testing
     tr.appendChild(deleteButton); 
@@ -447,8 +450,11 @@ document.getElementById('timeSheetDivId').addEventListener('click', function(e){
     }
     else if(e.target.value == 'Add new Timesheet'){
 
+        console.log("current date/time: " + new Date());
         let d = endOfWeek(new Date());
+        console.log(d);
         let dateString = d.toISOString().substring(0,10).replace('-', '').replace('-', '');
+        console.log("DateString: " + dateString);
         
         
         let promise = axios.post('http://localhost:8080/timesheet-portal/api/timesheets?userId=' + thisUser.userId + "&date=" + dateString) ;
